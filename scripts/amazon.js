@@ -23,7 +23,7 @@ products.forEach((product) =>{
                     </div>
 
                     <div class="product-quantity-container">
-                        <select>
+                        <select class="js-quantity-selector-${product.id}">
                         <option selected value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -48,33 +48,67 @@ products.forEach((product) =>{
                         Add to Cart
                     </button>
                     </div>`;
-       
+
 });
 document.querySelector(".js-products-grid").innerHTML = productHTMML;
+// document.querySelectorAll(".js-addtocart").forEach((button)=>{
+    
+//     button.addEventListener("click", ()=>{
+//         const productId = button.dataset.productId;
+//         // let matchingItem;
+//         // cart.forEach((item)=>{
+//         //     if (productId === item.productId){
+//         //         matchingItem = item;
+//         //     }
+//         // });
+        
+//         // if (matchingItem){
+//         //     matchingItem.quantity+=1;
+//         // }else{
+//         //     cart.push({
+//         //         productId: productId,
+//         //         quantity: 1,
+//         //     });
+//         // }
+//         // let cartQuantity = 0;
+//         // cart.forEach((item)=>{
+//         //     cartQuantity+=item.quantity;
+//         // });
+//         // document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+//     });
+// });
+
 document.querySelectorAll(".js-addtocart").forEach((button)=>{
     button.addEventListener("click", ()=>{
-        const productId = button.dataset.productId;
-        let matchingItem;
-        cart.forEach((item)=>{
-            if (productId === item.productId){
-                matchingItem = item;
-            }
-        });
-        if (matchingItem){
-            matchingItem.quantity+=1;
-        }else{
-            cart.push({
-                productId: productId,
-                quantity: 1,
-            });
+       const productId = button.dataset.productId;
+       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+       const quantity = Number(quantitySelector.value);
+       let matchingItem;
+       cart.forEach((item)=>{
+        
+        if (productId === item.productId)
+        {
+            matchingItem = item;
         }
-        let cartQuantity = 0;
-        cart.forEach((item)=>{
-            cartQuantity+=item.quantity;
-        });
-        document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-    });
-});
+       });
+
+       if (matchingItem)
+       {
+        matchingItem.quantity+=quantity;
+       }
+       else{
+        cart.push({
+            productId: productId,
+            quantity:quantity
+        })
+       }
+      let cartQuantity = 0;
+      cart.forEach((item) =>{
+        cartQuantity+=item.quantity;
+      })
+      document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+    })
+})
 
 
 
